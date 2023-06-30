@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { PrismaService } from 'src/db/prisma.service';
+import { PrismaService } from '../../db/prisma.service';
 
 @Injectable()
 export class UserService {
@@ -17,6 +17,12 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    return this.prisma.user.findUnique({ where: { id } });
+    const user = await this.prisma.user.findUnique({ where: { id } });
+
+    if (!user) {
+      return { type: HttpStatus.BAD_REQUEST, message: 'User not found' };
+    }
+
+    return { type: null, message: user };
   }
 }

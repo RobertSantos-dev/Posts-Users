@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  HttpException,
+} from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 
@@ -17,7 +24,11 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.userService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    const { type, message } = await this.userService.findOne(+id);
+
+    if (type) throw new HttpException(message, type);
+
+    return message;
   }
 }
