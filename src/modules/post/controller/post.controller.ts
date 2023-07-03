@@ -5,8 +5,9 @@ import {
   Body,
   Patch,
   Param,
-  // Delete,
+  Delete,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PostService } from '../service/post.service';
 import { CreatePostDto } from '../dto/create-post.dto';
@@ -48,8 +49,12 @@ export class PostController {
     }
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.postService.remove(+id);
-  // }
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    try {
+      return this.postService.remove(+id);
+    } catch (error) {
+      throw new HttpException('id not found', HttpStatus.BAD_REQUEST);
+    }
+  }
 }
