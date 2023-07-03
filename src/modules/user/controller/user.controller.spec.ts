@@ -3,7 +3,7 @@ import { HttpException } from '@nestjs/common';
 
 import { UserController } from './user.controller';
 import { UserService } from '../service/user.service';
-import { PrismaService } from '../../db/prisma.service';
+import { PrismaService } from '../../../db/prisma.service';
 
 describe('UserController', () => {
   let controller: UserController;
