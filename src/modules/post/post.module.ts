@@ -17,6 +17,8 @@ export class PostModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(PostMiddleware)
-      .forRoutes({ path: 'post', method: RequestMethod.POST });
+      .forRoutes({ path: 'post', method: RequestMethod.POST })
+      .apply(PostMiddleware)
+      .forRoutes({ path: 'post/:id', method: RequestMethod.PATCH });
   }
 }

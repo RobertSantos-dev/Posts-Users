@@ -3,14 +3,14 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
+  Patch,
   Param,
   // Delete,
   HttpException,
 } from '@nestjs/common';
 import { PostService } from '../service/post.service';
 import { CreatePostDto } from '../dto/create-post.dto';
-// import { UpdatePostDto } from '../dto/update-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 
 @Controller('post')
 export class PostController {
@@ -39,10 +39,14 @@ export class PostController {
     return message;
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-  //   return this.postService.update(+id, updatePostDto);
-  // }
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+    try {
+      return this.postService.update(+id, updatePostDto);
+    } catch (error) {
+      throw new HttpException('Conflict, user inexist', 409);
+    }
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

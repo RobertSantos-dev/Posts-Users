@@ -1,6 +1,6 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { CreatePostDto } from '../dto/create-post.dto';
-// import { UpdatePostDto } from '../dto/update-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 import { PrismaService } from '../../../db/prisma.service';
 import { Post } from '../entities/post.entity';
 
@@ -32,9 +32,16 @@ export class PostService {
     return { type: null, message: newPost };
   }
 
-  // update(id: number, updatePostDto: UpdatePostDto) {
-  //   return `This action updates a #${id} post`;
-  // }
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    return this.prisma.post.update({
+      where: { id },
+      data: {
+        title: updatePostDto.title,
+        text: updatePostDto.text,
+        userId: updatePostDto.userId,
+      },
+    });
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} post`;
